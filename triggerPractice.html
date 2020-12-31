@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="box-1"> 
+        <h1>0</h1> 
+    </div> 
+      
+    <button id="btn1">Increase #1</button> 
+      
+    <div class="box-2"> 
+        <h1>0</h1> 
+    </div> 
+      
+    <button id="btn2">Increase #2</button> 
+    
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+  <script>
+
+ 
+
+        //$().trigger() method
+        $(document).ready(function() { 
+            $("#btn1").click(function() { 
+                Increase($(".box-1>h1")) 
+            }) 
+            
+            //trigger a click on the 1st button when you click the 2nd
+            $("#btn2").on("click",() => { 
+                $("#btn1").trigger("click"); 
+      
+                Increase($(".box-2>h1")) 
+            }) 
+      
+            function Increase(obj) { 
+                //turn into base-10 int
+                var text = parseInt(obj.text(), 10); 
+                obj.text(text + 1); 
+            } 
+
+            //beforeunload experiment
+            window.addEventListener('beforeunload', (event) => {
+                event.preventDefault();
+            // Google Chrome requires returnValue to be set.
+                event.returnValue = '';
+            });
+
+        }); 
+
+            
+  </script>
+</html>

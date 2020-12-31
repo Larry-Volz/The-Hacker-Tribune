@@ -39,7 +39,7 @@ a:hover {
 
 nav {
   display: flex;
-  background-color: lightblue;
+  background-color: #ff6600;
   align-items: center;
   padding: 5px 20px;
   border-radius: 3px 3px 0 0;
@@ -62,7 +62,7 @@ nav {
   display: flex;
   flex-direction: column;
   align-self: center;
-  background-color: whitesmoke;
+  background-color: #f6f6ef;
 }
 
 form {

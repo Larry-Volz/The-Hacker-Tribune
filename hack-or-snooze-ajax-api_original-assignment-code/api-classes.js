@@ -14,18 +14,14 @@ class StoryList {
    * This method is designed to be called to generate a new StoryList.
    *  It:
    *  - calls the API
-   *  - builds an ARRAY of Story instances
-   *  - makes a SINGLE StoryList instance out of that
+   *  - builds an array of Story instances
+   *  - makes a single StoryList instance out of that
    *  - returns the StoryList instance.*
    */
 
-  // DONE: Note the presence of `static` keyword: this indicates that getStories
+  // TODO: Note the presence of `static` keyword: this indicates that getStories
   // is **not** an instance method. Rather, it is a method that is called on the
   // class directly. Why doesn't it make sense for getStories to be an instance method?
-
-  //Because the getStories method actually creates and adds new Story objects - you only need one storylist
-  //And you need the stories that it gathers as the param passed to storylist BEFORE instantiating Storylist
-
 
   static async getStories() {
     // query the /stories endpoint (no auth required)
@@ -47,40 +43,14 @@ class StoryList {
    * Returns the new story object
    */
 
-  async addStory(user, newStory) {  
-    console.log("REACHED addStory()");
-    //TODO: make a POST request to /stories and add the new story to the list
-    //TODO: instantiate a new story
-      //TODO: return the newly created story so it can be used in
-      // the script.js file where it will be appended to the DOM
-      //TODO: add to storyList array (?)
+  async addStory(user, newStory) {
+    // TODO - Implement this functions!
+    // this function should return the newly created story so it can be used in
+    // the script.js file where it will be appended to the DOM
   }
 }
 
 
-/**
- * Class to represent a single story.
- */
-
-class Story {
-
-  /**
-   * The constructor is designed to take an object for better readability / flexibility
-   * - storyObj: an object that has story properties in it
-   */
-
-  constructor(storyObj) {
-    this.author = storyObj.author;
-    this.title = storyObj.title;
-    this.url = storyObj.url;
-    this.username = storyObj.username;
-    this.storyId = storyObj.storyId;
-    this.createdAt = storyObj.createdAt;
-    this.updatedAt = storyObj.updatedAt;
-  }
-}
-
-//--------------------------------------------- USER -------------------------------------------------------
 /**
  * The User class to primarily represent the current user.
  *  There are helper methods to signup (create), login, and getLoggedInUser
@@ -108,7 +78,6 @@ class User {
    * - name: the user's full name
    */
 
-    //Call with newUser = User.create(u,p,n)
   static async create(username, password, name) {
     const response = await axios.post(`${BASE_URL}/signup`, {
       user: {
@@ -160,7 +129,6 @@ class User {
    *   about the user. Then it creates an instance of user with that info.
    */
 
-  //Notice static because need info before instantiating again
   static async getLoggedInUser(token, username) {
     // if we don't have user info, return null
     if (!token || !username) return null;
@@ -185,3 +153,24 @@ class User {
   }
 }
 
+/**
+ * Class to represent a single story.
+ */
+
+class Story {
+
+  /**
+   * The constructor is designed to take an object for better readability / flexibility
+   * - storyObj: an object that has story properties in it
+   */
+
+  constructor(storyObj) {
+    this.author = storyObj.author;
+    this.title = storyObj.title;
+    this.url = storyObj.url;
+    this.username = storyObj.username;
+    this.storyId = storyObj.storyId;
+    this.createdAt = storyObj.createdAt;
+    this.updatedAt = storyObj.updatedAt;
+  }
+}

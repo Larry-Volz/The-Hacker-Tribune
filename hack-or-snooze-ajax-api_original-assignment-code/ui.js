@@ -1,9 +1,3 @@
-/*
-for sign-in:  username: larryvolz/pw: $hsZacNat123
-
-*/
-
-
 $(async function() {
   // cache some selectors we'll be using quite a bit
   const $allStoriesList = $("#all-articles-list");
@@ -82,14 +76,14 @@ $(async function() {
     // Show the Login and Create Account Forms
     $loginForm.slideToggle();
     $createAccountForm.slideToggle();
-    $allStoriesList.slideToggle(); //was originally toggle - but this looks cooler
+    $allStoriesList.toggle();
   });
 
   /**
    * Event handler for Navigation to Homepage
    */
 
-  $("body").on("click", "#nav-all", async function() {  //??? Why .on() on BODY??? and what is 2nd parameter for???
+  $("body").on("click", "#nav-all", async function() {
     hideElements();
     await generateStories();
     $allStoriesList.show();
@@ -126,7 +120,7 @@ $(async function() {
     $createAccountForm.hide();
 
     // reset those forms
-    $loginForm.trigger("reset");          //WORTH REMEMBERING!!!
+    $loginForm.trigger("reset");
     $createAccountForm.trigger("reset");
 
     // show the stories
@@ -155,12 +149,6 @@ $(async function() {
       $allStoriesList.append(result);
     }
   }
-
-  /**
-   * an event listener to generate and add a story to the db, page and storiesList
-   */
-  // ??? WHY IS IT REACHING storyList.addStory() WITHOUT A CLICK? (ON REFRESH)???
-  $("#nav-submit").on("click", await storyList.addStory(currentUser.username, "put generateStoryHTML(story) here"));
 
   /**
    * A function to render HTML for an individual Story instance
@@ -201,18 +189,6 @@ $(async function() {
   function showNavForLoggedInUser() {
     $navLogin.hide();
     $navLogOut.show();
-
-    //DONE: ADDED NAME TO RIGHT SIDE OF NAVBAR LIKE TEACHER'S
-    $navLogOut.text(currentUser.username+("(logout)")).css("fontSize", "small");
-    //DONE: show main nav links like teacher's
-    $(".main-nav-links").show();
-    //DONE: Show name,username at bottom of page
-    $("#profile-name").append(currentUser.name);
-    $("#profile-username").append(currentUser.username);
-
-    //TODO: Show created date at bottom of page.  Where to get that???
-    $("#profile-account-date").append("A long time ago in a galaxy far far away");
-
   }
 
   /* simple function to pull the hostname from a URL */
