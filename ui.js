@@ -14,6 +14,7 @@ $(async function() {
   const $ownStories = $("#my-articles");
   const $navLogin = $("#nav-login");
   const $navLogOut = $("#nav-logout");
+  
 
   // global storyList variable
   let storyList = null;
@@ -159,8 +160,33 @@ $(async function() {
   /**
    * an event listener to generate and add a story to the db, page and storiesList
    */
-  // ??? WHY IS IT REACHING storyList.addStory() WITHOUT A CLICK? (ON REFRESH)???
-  $("#nav-submit").on("click", await storyList.addStory(currentUser.username, "put generateStoryHTML(story) here"));
+  //DONE: Event listener from menu to show the add story form
+  $("#nav-submit").on("click",()=> $("#submit-form").show())
+
+
+  // DONE: added event listener for new article form submission
+  $("#add-story-btn").on("click", async function() {
+
+    //DONE: create storyObjfrom form to pass into addStory()/API
+    // const token = localStorage.getItem("token");
+    // const storyObj = {
+    //   token: token,
+    //   story : {
+    //           author : $("#author").val(),
+    //           title : $("#title").val(),
+    //           url : $("#url").val()
+    //           }
+    //   };
+
+    const token = localStorage.getItem("token");
+    const storyObj = {
+            author : $("#author").val(),
+              title : $("#title").val(),
+              url : $("#url").val()
+              };
+    
+      let newStory = storyList.addStory(currentUser.username, storyObj)
+  });
 
   /**
    * A function to render HTML for an individual Story instance
@@ -210,8 +236,9 @@ $(async function() {
     $("#profile-name").append(currentUser.name);
     $("#profile-username").append(currentUser.username);
 
-    //TODO: Show created date at bottom of page.  Where to get that???
-    $("#profile-account-date").append("A long time ago in a galaxy far far away");
+    //DONE: Show created date at bottom of page.
+    //OPT. TODO: re-format date to be more readable
+    $("#profile-account-date").append(currentUser.createdAt);
 
   }
 

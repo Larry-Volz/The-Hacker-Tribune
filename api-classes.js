@@ -47,13 +47,40 @@ class StoryList {
    * Returns the new story object
    */
 
-  async addStory(user, newStory) {  
-    console.log("REACHED addStory()");
-    //TODO: make a POST request to /stories and add the new story to the list
-    //TODO: instantiate a new story
-      //TODO: return the newly created story so it can be used in
-      // the script.js file where it will be appended to the DOM
-      //TODO: add to storyList array (?)
+  async addStory(user, storyObj) {  
+    console.log(`REACHED addStory() with good storyObj`);
+
+    let today = new Date()
+    const token = localStorage.getItem("token");
+
+    //TODO: format data structure for POST
+    
+    const apiObj = {
+      token: token,
+      story : storyObj
+      };
+
+    //DONE: make a POST request to /stories and add the new story to the list
+    const result = await axios.post(`${BASE_URL}/stories`, apiObj);
+    
+    //DONE: Get story id from /stories & add to storyObj
+    storyObj.storyId = result.data.story.storyId;  //???
+    
+    //TODO: APPEND id, username, created, updated to storyObj
+    storyObj.username = user;
+    storyObj.createdAt = today;
+    storyObj.updatedAt = today;
+
+    console.log("storyObj after multiple assignments: ", storyObj);
+
+    //DONE: instantiate a new story
+    let newStory = new Story(storyObj);
+    console.log("newStory: ", newStory);
+
+    //TODO: add to storyList array (?)
+
+    //DONE: return the newly created story so it can be used in the script.js file where it will be appended to the DOM
+    return newStory;
   }
 }
 
