@@ -186,6 +186,13 @@ $(async function() {
               };
     
       let newStory = storyList.addStory(currentUser.username, storyObj)
+      .then(function(newStory) {
+        //TODO: add to dom
+        const storyHtml = generateStoryHTML(newStory);
+        $("#all-articles-list").prepend(storyHtml);
+        console.log("storyHTML", storyHtml);
+      })
+    
   });
 
   /**
@@ -245,6 +252,7 @@ $(async function() {
   /* simple function to pull the hostname from a URL */
 
   function getHostName(url) {
+    console.log("in getHostName.  URL = ", url);
     let hostName;
     if (url.indexOf("://") > -1) {
       hostName = url.split("/")[2];

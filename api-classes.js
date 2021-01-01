@@ -48,13 +48,14 @@ class StoryList {
    */
 
   async addStory(user, storyObj) {  
-    console.log(`REACHED addStory() with good storyObj`);
-
-    let today = new Date()
+    //DONE: Only allow logged in users to post
     const token = localStorage.getItem("token");
-
-    //TODO: format data structure for POST
+    if (!token) {
+      alert("You must be logged in in order to add a story");
+      return;
+    }
     
+    //DONE: format data structure for POST
     const apiObj = {
       token: token,
       story : storyObj
@@ -66,7 +67,8 @@ class StoryList {
     //DONE: Get story id from /stories & add to storyObj
     storyObj.storyId = result.data.story.storyId;  //???
     
-    //TODO: APPEND id, username, created, updated to storyObj
+    //DONE: APPEND id, username, created, updated to storyObj
+    let today = new Date()
     storyObj.username = user;
     storyObj.createdAt = today;
     storyObj.updatedAt = today;
@@ -75,9 +77,10 @@ class StoryList {
 
     //DONE: instantiate a new story
     let newStory = new Story(storyObj);
-    console.log("newStory: ", newStory);
+    // console.log("newStory: ", newStory); 
 
-    //TODO: add to storyList array (?)
+    //DONE: close form
+    $("#submit-form").hide()
 
     //DONE: return the newly created story so it can be used in the script.js file where it will be appended to the DOM
     return newStory;
