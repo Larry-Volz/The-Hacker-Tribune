@@ -14,7 +14,7 @@ $(async function() {
   const $ownStories = $("#my-articles");
   const $navLogin = $("#nav-login");
   const $navLogOut = $("#nav-logout");
-  
+  const $favoritedArticles = $("#favorited-articles");
 
   // global storyList variable
   let storyList = null;
@@ -167,18 +167,8 @@ $(async function() {
   // DONE: added event listener for new article form submission
   $("#add-story-btn").on("click", async function() {
 
-    //DONE: create storyObjfrom form to pass into addStory()/API
-    // const token = localStorage.getItem("token");
-    // const storyObj = {
-    //   token: token,
-    //   story : {
-    //           author : $("#author").val(),
-    //           title : $("#title").val(),
-    //           url : $("#url").val()
-    //           }
-    //   };
-
-    const token = localStorage.getItem("token");
+    //DONE: Get form info
+    
     const storyObj = {
             author : $("#author").val(),
               title : $("#title").val(),
@@ -187,10 +177,10 @@ $(async function() {
     
       let newStory = storyList.addStory(currentUser.username, storyObj)
       .then(function(newStory) {
-        //TODO: add to dom
+
+        //DONE: make text and add it to dom
         const storyHtml = generateStoryHTML(newStory);
         $("#all-articles-list").prepend(storyHtml);
-        console.log("storyHTML", storyHtml);
       })
     
   });
@@ -203,8 +193,10 @@ $(async function() {
     let hostName = getHostName(story.url);
 
     // render story markup
+    //DONE: ADD STAR HERE
     const storyMarkup = $(`
       <li id="${story.storyId}">
+      <i class="far fa-star star"></i>
         <a class="article-link" href="${story.url}" target="a_blank">
           <strong>${story.title}</strong>
         </a>
@@ -216,6 +208,64 @@ $(async function() {
 
     return storyMarkup;
   }
+
+  /**
+   * event listener to favorite/unfavorite a single article
+   */
+
+   //DONE: create event listener on article container 
+   //DONE: then target closest li/star
+   $allStoriesList.on('click', ".star", (evt)=> {
+
+      const token = localStorage.getItem("token");
+
+      //NOTE: HAVE TO WRAP EVENTS AS JQUERY OBJECT TO USE JQUERY METHODS!  evt.target won't work
+      //must be wrapped $() so $(evt.target)
+
+      //DONE: get star & unique story id from the li clicked on
+      let $starLine = $(evt.target).closest("i");
+      $storyId = $(evt.target).closest("li").attr("id");
+      
+      // console.log("storyID: ", $storyId);
+      console.log("faves: ", currentUser.favorites);
+
+      //DONE: extract array of storyId's from array of favorite story objects for comparison
+      let idList = currentUser.favorites.map(val =>{
+        return val["storyId"];
+      })
+
+      //TODO: If already favorited:
+      if (idList.includes($storyId)) {
+
+        //TODO: API TO REMOVE from user/favorites
+
+
+        //TODO: Change star to open
+        $starLine.toggleClass("fas fa-star");
+        $starLine.toggleClass("far fa-star");
+
+      } else {  
+          //NOT FAVORITED -> SO 
+          //DONE: do API call currentUser to ADD this one to favorites
+          let res = currentUser.addFavorite(currentUser.username, $storyId, token);
+          console.log(`ADDED: `, res);
+
+          //DONE: change class to change the star to solid 
+          $starLine.toggleClass("fas fa-star");
+          $starLine.toggleClass("far fa-star");
+      
+      }
+    });
+
+  /**
+   *  event listener to show favorites
+   */
+
+   //TODO: ADD event listener to nav-bar
+
+   //TODO: call userFavorites() method to show favorites
+
+
 
   /* hide all elements in elementsArr */
 
@@ -252,7 +302,6 @@ $(async function() {
   /* simple function to pull the hostname from a URL */
 
   function getHostName(url) {
-    console.log("in getHostName.  URL = ", url);
     let hostName;
     if (url.indexOf("://") > -1) {
       hostName = url.split("/")[2];

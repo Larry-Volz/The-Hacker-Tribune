@@ -73,11 +73,8 @@ class StoryList {
     storyObj.createdAt = today;
     storyObj.updatedAt = today;
 
-    console.log("storyObj after multiple assignments: ", storyObj);
-
     //DONE: instantiate a new story
     let newStory = new Story(storyObj);
-    // console.log("newStory: ", newStory); 
 
     //DONE: close form
     $("#submit-form").hide()
@@ -107,8 +104,11 @@ class Story {
     this.storyId = storyObj.storyId;
     this.createdAt = storyObj.createdAt;
     this.updatedAt = storyObj.updatedAt;
+    this.isFave = false;
   }
 }
+
+
 
 //--------------------------------------------- USER -------------------------------------------------------
 /**
@@ -125,7 +125,7 @@ class User {
 
     // these are all set to defaults, not passed in by the constructor
     this.loginToken = "";
-    this.favorites = [];
+    this.favorites = ["653c76c0-66ab-4248-a084-bc07c7f9f342"];
     this.ownStories = [];
   }
 
@@ -213,5 +213,14 @@ class User {
     existingUser.ownStories = response.data.user.stories.map(s => new Story(s));
     return existingUser;
   }
-}
 
+  async addFavorite(username, storyId, token) {
+    const response = await axios.post(`${BASE_URL}/users/${username}/favorites/${storyId}`, {
+        token: token,
+        username : username,
+        storyId : storyId
+    });
+    return response;
+  }
+
+} //end of User class
