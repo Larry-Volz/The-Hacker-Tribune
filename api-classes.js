@@ -214,12 +214,28 @@ class User {
     return existingUser;
   }
 
+  //TODO: turn code at ui.js line 243 into a reusable method
+  isFavorite(storyid) {
+    //
+  }
+
   async addFavorite(username, storyId, token) {
     const response = await axios.post(`${BASE_URL}/users/${username}/favorites/${storyId}`, {
         token: token,
         username : username,
         storyId : storyId
     });
+    console.log("Added:", response);
+    return response;
+  }
+
+  async removeFavorite(username, storyId, token) {
+    const response = await axios.delete(`${BASE_URL}/users/${username}/favorites/${storyId}`, {
+      data : {
+        token: token,
+      }
+    });
+    console.log("Removed:", response);
     return response;
   }
 

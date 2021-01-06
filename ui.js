@@ -90,7 +90,7 @@ $(async function() {
    * Event handler for Navigation to Homepage
    */
 
-  $("body").on("click", "#nav-all", async function() {  //??? Why .on() on BODY??? and what is 2nd parameter for???
+  $("body").on("click", "#nav-all", async function() {  //NOTE: 2nd parameter filters to #nav-all (why not just select that)???
     hideElements();
     await generateStories();
     $allStoriesList.show();
@@ -167,7 +167,7 @@ $(async function() {
   // DONE: added event listener for new article form submission
   $("#add-story-btn").on("click", async function() {
 
-    //DONE: Get form info
+    //DONE: Get story submission form info
     
     const storyObj = {
             author : $("#author").val(),
@@ -193,7 +193,8 @@ $(async function() {
     let hostName = getHostName(story.url);
 
     // render story markup
-    //DONE: ADD STAR HERE
+    //DONE: ADD DEFAULT STAR HERE
+    //TODO: If a favorite - make it fas fa-star class - possibly pass user in too for that
     const storyMarkup = $(`
       <li id="${story.storyId}">
       <i class="far fa-star star"></i>
@@ -223,22 +224,23 @@ $(async function() {
       //must be wrapped $() so $(evt.target)
 
       //DONE: get star & unique story id from the li clicked on
-      let $starLine = $(evt.target).closest("i");
+      let $starLine = $(evt.target).closest("i");  //fontawesome is stored as <i class ="whatever"></i>
       $storyId = $(evt.target).closest("li").attr("id");
-      
+
       // console.log("storyID: ", $storyId);
       console.log("faves: ", currentUser.favorites);
 
-      //DONE: extract array of storyId's from array of favorite story objects for comparison
+      //DONE: idList = extracted array of storyId's from array of favorite story objects for comparison
       let idList = currentUser.favorites.map(val =>{
         return val["storyId"];
       })
+      console.log("Current Favorites", idList);
 
       //TODO: If already favorited:
       if (idList.includes($storyId)) {
 
         //TODO: API TO REMOVE from user/favorites
-
+        let res = currentUser.removeFavorite(currentUser.username, $storyId, token)
 
         //TODO: Change star to open
         $starLine.toggleClass("fas fa-star");
@@ -248,7 +250,7 @@ $(async function() {
           //NOT FAVORITED -> SO 
           //DONE: do API call currentUser to ADD this one to favorites
           let res = currentUser.addFavorite(currentUser.username, $storyId, token);
-          console.log(`ADDED: `, res);
+          // console.log(`ADDED: `, res);
 
           //DONE: change class to change the star to solid 
           $starLine.toggleClass("fas fa-star");
