@@ -91,7 +91,7 @@ $(async function() {
    * Event handler for Navigation to Homepage
    */
 
-  $("body").on("click", "#nav-all", async function() {  //NOTE: 2nd parameter filters to #nav-all (why not just select that)???
+  $("body").on("click", "#nav-all", async function() {  
     hideElements();
     await generateStories();
     $allStoriesList.show();
@@ -166,10 +166,11 @@ $(async function() {
 
 
   // DONE: added event listener for new article form submission
-  $("#add-story-btn").on("click", async function() {
+  $("#submit-form").on("submit", async function(evt) {
+
+    evt.preventDefault(); // no page refresh
 
     //DONE: Get story submission form info
-    
     const storyObj = {
             author : $("#author").val(),
               title : $("#title").val(),
@@ -178,11 +179,12 @@ $(async function() {
     
       let newStory = storyList.addStory(currentUser.username, storyObj)
       .then(function(newStory) {
-
+        
         //DONE: make text and add it to dom
         const storyHtml = generateStoryHTML(newStory);
         $("#all-articles-list").prepend(storyHtml);
       })
+
     
   });
 
@@ -191,7 +193,9 @@ $(async function() {
    */
 
   function generateStoryHTML(story, myStory) {
+
     let hostName = getHostName(story.url);
+    
 
     //DONE: If a favorite - make it fas fa-star class - possibly pass user in too for that
     let starClass = isFavorite(story) ? "fas" : "far";
@@ -205,6 +209,7 @@ $(async function() {
 
     // render story markup
     // render a trash can for deleting your own story if isOwnStory (teachers line 332)
+    //NOTE - SEE THE $() wrapper around the text!!!  It's like doing $("<li>") and creates the HTML in a string literal
     //DONE: ADD DEFAULT STAR HERE
     const storyMarkup = $(`
       <li id="${story.storyId}">
@@ -218,8 +223,6 @@ $(async function() {
         <small class="article-username">posted by ${story.username}</small>
       </li>
     `);
-    
-
 
     return storyMarkup;
   }
@@ -262,16 +265,29 @@ $(async function() {
    *  event listener to show favorites
    */
 
-   //TODO: ADD event listener to nav-bar
+   //DONE: ADD event listener to nav-bar FOR FAVORITES
    $("body").on("click", "#nav-my-favorites", function(){
 
     if (currentUser){
-    //TODO: call showFavorites() method to show favorites
+
+    //TODO: call showFavorites() method to reset screen & show favorites
       showFavorites();
       //turn on that div
       $favoritedArticles.show();
     }
    });
+
+  //TODO: ADD event listener to nav-bar FOR MY ARTICLES
+  $("body").on("click", "#nav-my-stories", function(){
+
+    if (currentUser){
+      
+    //TODO: call showMyStories() method to show my articles
+      showMyStories();
+      //turn on that div
+      $ownStories.show();
+    }
+   }); 
 
 
 
@@ -357,7 +373,7 @@ $(async function() {
   }
 
   function showFavorites(){
-    
+
       //DONE: hide all the different div display elements
       hideAll();
 
@@ -380,4 +396,34 @@ $(async function() {
       }
   }
   
+
+  function showMyStories(){
+
+    //TODO: clear out the on-screen divs/show default message
+    hideAll()
+
+    //TODO: clear the var/div for mine
+    $("#my-articles").empty();
+    
+    //Are there any?
+    if (currentUser.ownStories.length === 0){
+
+      $ownStories.append("<h4>You have not added any articles yet</h4>");
+    
+    //if yes...
+    } else {
+      
+      
+      //get each article and add them to the dom
+      for (let ea of currentUser.ownStories) {
+        
+        let originalsHTML = generateStoryHTML(ea, true);
+        console.log("originalsHTML", originalsHTML);
+        $("#my-articles").append(originalsHTML)
+      }
+
+      return;
+
+    }
+  }
 });

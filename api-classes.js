@@ -43,7 +43,7 @@ class StoryList {
    * Method to make a POST request to /stories and add the new story to the list
    * - user - the current instance of User who will post the story
    * - newStory - a new story object for the API with title, author, and url
-   * - storyObj = data from form + info from addStory -> used to create a story object
+   * - storyObj = data from form + info from   -> used to create a story object
    *
    * Returns the new story object
    */
