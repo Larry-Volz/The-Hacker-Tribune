@@ -43,6 +43,7 @@ class StoryList {
    * Method to make a POST request to /stories and add the new story to the list
    * - user - the current instance of User who will post the story
    * - newStory - a new story object for the API with title, author, and url
+   * - storyObj = data from form + info from addStory -> used to create a story object
    *
    * Returns the new story object
    */
@@ -125,7 +126,7 @@ class User {
 
     // these are all set to defaults, not passed in by the constructor
     this.loginToken = "";
-    this.favorites = ["653c76c0-66ab-4248-a084-bc07c7f9f342"];
+    this.favorites = []; // ???
     this.ownStories = [];
   }
 
@@ -195,7 +196,7 @@ class User {
     // if we don't have user info, return null
     if (!token || !username) return null;
 
-    // call the API
+    // get token from API
     const response = await axios.get(`${BASE_URL}/users/${username}`, {
       params: {
         token
@@ -208,20 +209,15 @@ class User {
     // attach the token to the newUser instance for convenience
     existingUser.loginToken = token;
 
-    // instantiate Story instances for the user's favorites and ownStories
+    // instantiate Story instances for the user's favorites and ownStories arrays
     existingUser.favorites = response.data.user.favorites.map(s => new Story(s));
     existingUser.ownStories = response.data.user.stories.map(s => new Story(s));
     return existingUser;
   }
 
-  //TODO: turn code at ui.js line 243 into a reusable method
-  isFavorite(storyid) {
-    //
-  }
-
-  async addFavorite(username, storyId, token) {
+  async addFavorite(username, storyId) {
     const response = await axios.post(`${BASE_URL}/users/${username}/favorites/${storyId}`, {
-        token: token,
+        token: this.loginToken,
         username : username,
         storyId : storyId
     });
@@ -229,10 +225,10 @@ class User {
     return response;
   }
 
-  async removeFavorite(username, storyId, token) {
+  async removeFavorite(username, storyId) {
     const response = await axios.delete(`${BASE_URL}/users/${username}/favorites/${storyId}`, {
       data : {
-        token: token,
+        token: this.loginToken,
       }
     });
     console.log("Removed:", response);

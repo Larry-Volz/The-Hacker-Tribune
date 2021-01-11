@@ -192,15 +192,12 @@ $(async function() {
   function generateStoryHTML(story) {
     let hostName = getHostName(story.url);
 
-    //DONE: If a favorite - make it fas fa-star class - possibly pass user in too for that
-    let starClass = isFavorite(story) ? "fas" : "far";
-
     // render story markup
-    // render a trash can for deleting your own story if isOwnStory (teachers line 332)
     //DONE: ADD DEFAULT STAR HERE
+    //TODO: If a favorite - make it fas fa-star class - possibly pass user in too for that
     const storyMarkup = $(`
       <li id="${story.storyId}">
-      <i class="${starClass} fa-star star"></i>
+      <i class="far fa-star star"></i>
         <a class="article-link" href="${story.url}" target="a_blank">
           <strong>${story.title}</strong>
         </a>
@@ -223,28 +220,62 @@ $(async function() {
    //DONE: then target closest li/star
    $allStoriesList.on('click', ".star", (evt)=> {
 
+      const token = localStorage.getItem("token");
+      const username = localStorage.getItem("username");
+
       //NOTE: HAVE TO WRAP EVENTS AS JQUERY OBJECT TO USE JQUERY METHODS!  evt.target won't work
       //must be wrapped $() so $(evt.target)
 
-      //DONE: get star & unique storyId from the li clicked on
+      //DONE: get star & unique story id from the li clicked on
       let $starLine = $(evt.target).closest("i");  //fontawesome is stored as <i class ="whatever"></i>
       $storyId = $(evt.target).closest("li").attr("id");
 
-      if ($(evt.target).hasClass("fas")){
+      // console.log("storyID: ", $storyId);
+      console.log("faves: ", currentUser.favorites);
+
+      //upadate currentUser.favorites:  checkIfLoggedIn()
+      // currentUser = await function(token, username) {
+      //   User.getLoggedInUser(token,username);
+      // }
+
+      // console.log(`User.getLoggedInUser returned: ${currentUser}`)
+
+      //DONE: idList = extracted array of storyId's from array of favorite story objects for comparison
+      let idList = currentUser.favorites.map(val =>{
+        return val["storyId"];
+      })
+      console.log("Current Favorites", idList);
+
+      //TODO: If ALREADY favorited - remove:
+      //test
+      let yes = idList.includes($storyId);
+        console.log(`idList includes $storyId? ${yes}`)
+
+      if (idList.includes($storyId)) {
         
         //TODO: API TO REMOVE from user/favorites
-        let res = currentUser.removeFavorite(currentUser.username, $storyId);
+        let res = currentUser.removeFavorite(currentUser.username, $storyId, token)
 
-        //TODO: Change solid star to open (fas to far)
-        $starLine.toggleClass("fas far");
+        //TODO: Change solid star to open (fa-regular)
+        $starLine.toggleClass("fas fa-star");
+        $starLine.toggleClass("far fa-star");
+
+        //TODO: Update the screen and currentUser.favorites (TODO: remember to fix generateHTML() )
+        await checkIfLoggedIn();
+
 
       } else {  
           //NOT FAVORITED -> SO 
           //DONE: do API call currentUser to ADD this one to favorites
-          let res = currentUser.addFavorite(currentUser.username, $storyId);
+          let res = currentUser.addFavorite(currentUser.username, $storyId, token);
+          // console.log(`ADDED: `, res);
 
-          //TODO: Change open star to solid (far to fas)
-          $starLine.toggleClass("fas far");
+          //DONE: change class to change the star to solid 
+          $starLine.toggleClass("fas fa-star");
+          $starLine.toggleClass("far fa-star");
+
+          //TODO: Update the screen and currentUser.favorites (TODO: remember to fix generateHTML() )
+          await checkIfLoggedIn();
       
       }
     });
@@ -313,14 +344,5 @@ $(async function() {
       localStorage.setItem("token", currentUser.loginToken);
       localStorage.setItem("username", currentUser.username);
     }
-  }
-
-   //DONE: turn code at ui.js line 243 into a reusable method
-   function isFavorite(story) {
-    let faves = new Set();
-    if(currentUser){
-      faves = new Set(currentUser.favorites.map(obj => obj.storyId));
-    }
-    return faves.has(story.storyId);
   }
 });
