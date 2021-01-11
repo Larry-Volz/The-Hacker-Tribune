@@ -222,6 +222,8 @@ class User {
         storyId : storyId
     });
     console.log("Added:", response);
+    //DONE: update user
+    await this.updateCurrentUser()
     return response;
   }
 
@@ -232,7 +234,29 @@ class User {
       }
     });
     console.log("Removed:", response);
+
+    //DONE: update user
+    await this.updateCurrentUser()
     return response;
+  }
+
+  async updateCurrentUser() {
+    const response = await axios.get(`${BASE_URL}/users/${this.username}`, {
+      params: {
+        token: this.loginToken
+      }
+    });
+
+    // update all of the user's properties from the API response
+    this.name = response.data.user.name;
+    this.createdAt = response.data.user.createdAt;
+    this.updatedAt = response.data.user.updatedAt;
+
+    // remember to convert the user's favorites and ownStories into instances of Story
+    this.favorites = response.data.user.favorites.map(s => new Story(s));
+    this.ownStories = response.data.user.stories.map(s => new Story(s));
+
+    return this;
   }
 
 } //end of User class

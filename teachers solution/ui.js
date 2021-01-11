@@ -130,7 +130,9 @@ $(async function() {
         const $closestLi = $tgt.closest("li");
         const storyId = $closestLi.attr("id");
   
-        // if the item is already favorited
+        // if the item is already favorited  --NOTE SHE JUST MODIFIED THE FAVORITES ON THE SERVER AND THE STAR/CLASS
+        //DID NOT CHANGE THE LOCAL currentUser.favorites.  LEAVES THAT UP TO SHOWING THE FAVORITES
+        //ONE LESS API CALL!!!
         if ($tgt.hasClass("fas")) {
           // remove the favorite from the user's list
           await currentUser.removeFavorite(storyId);

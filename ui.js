@@ -15,6 +15,7 @@ $(async function() {
   const $navLogin = $("#nav-login");
   const $navLogOut = $("#nav-logout");
   const $favoritedArticles = $("#favorited-articles");
+  const $userProfile = $("#user-profile");
 
   // global storyList variable
   let storyList = null;
@@ -189,17 +190,25 @@ $(async function() {
    * A function to render HTML for an individual Story instance
    */
 
-  function generateStoryHTML(story) {
+  function generateStoryHTML(story, myStory) {
     let hostName = getHostName(story.url);
 
     //DONE: If a favorite - make it fas fa-star class - possibly pass user in too for that
     let starClass = isFavorite(story) ? "fas" : "far";
+
+    // render a trash can for deleting your own story
+    const trashCanFont = myStory
+    ? `<span class="trash-can">
+        <i class="fas fa-trash-alt"></i>
+      </span>`
+    : "";
 
     // render story markup
     // render a trash can for deleting your own story if isOwnStory (teachers line 332)
     //DONE: ADD DEFAULT STAR HERE
     const storyMarkup = $(`
       <li id="${story.storyId}">
+      ${trashCanFont}
       <i class="${starClass} fa-star star"></i>
         <a class="article-link" href="${story.url}" target="a_blank">
           <strong>${story.title}</strong>
@@ -221,7 +230,7 @@ $(async function() {
 
    //DONE: create event listener on article container 
    //DONE: then target closest li/star
-   $allStoriesList.on('click', ".star", (evt)=> {
+   $("body").on('click', ".star", (evt)=> {
 
       //NOTE: HAVE TO WRAP EVENTS AS JQUERY OBJECT TO USE JQUERY METHODS!  evt.target won't work
       //must be wrapped $() so $(evt.target)
@@ -232,10 +241,10 @@ $(async function() {
 
       if ($(evt.target).hasClass("fas")){
         
-        //TODO: API TO REMOVE from user/favorites
+        //DONE: API TO REMOVE from user/favorites
         let res = currentUser.removeFavorite(currentUser.username, $storyId);
 
-        //TODO: Change solid star to open (fas to far)
+        //DONE: Change solid star to open (fas to far)
         $starLine.toggleClass("fas far");
 
       } else {  
@@ -243,7 +252,7 @@ $(async function() {
           //DONE: do API call currentUser to ADD this one to favorites
           let res = currentUser.addFavorite(currentUser.username, $storyId);
 
-          //TODO: Change open star to solid (far to fas)
+          //DONE: Change open star to solid (far to fas)
           $starLine.toggleClass("fas far");
       
       }
@@ -254,8 +263,17 @@ $(async function() {
    */
 
    //TODO: ADD event listener to nav-bar
+   $("body").on("click", "#nav-my-favorites", function(){
 
-   //TODO: call userFavorites() method to show favorites
+    if (currentUser){
+    //TODO: call showFavorites() method to show favorites
+      showFavorites();
+      //turn on that div
+      $favoritedArticles.show();
+    }
+   });
+
+
 
 
 
@@ -323,4 +341,43 @@ $(async function() {
     }
     return faves.has(story.storyId);
   }
+
+  function hideAll() {
+    const elements = [
+      $allStoriesList,
+      $createAccountForm,
+      $favoritedArticles,
+      $filteredArticles,
+      $loginForm,
+      $ownStories,
+      $submitForm,
+      $userProfile 
+    ];
+    elements.forEach($itm => $itm.hide());
+  }
+
+  function showFavorites(){
+    
+      //DONE: hide all the different div display elements
+      hideAll();
+
+      //DONE: clear out any list items in $favoritedArticles
+      $favoritedArticles.empty();
+      
+      if (currentUser.favorites.length === 0){
+        $favoritedArticles.append("<h4>You have not favorited any articles yet</h4>");
+
+      } else {
+                
+        //get each article and add them to the dom
+        for (let ea of currentUser.favorites) {
+          let faveHTML = generateStoryHTML(ea, false);
+          $favoritedArticles.append(faveHTML)
+        }
+
+        //return
+
+      }
+  }
+  
 });
