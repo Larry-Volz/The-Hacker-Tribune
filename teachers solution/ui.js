@@ -433,15 +433,14 @@ $(async function() {
   
     function getHostName(url) {
       let hostName;
-      console.log("url",url);
-      // if (url.indexOf("://") > -1) {
-      //   hostName = url.split("/")[2];
-      // } else {
-      //   hostName = url.split("/")[0];
-      // }
-      // if (hostName.slice(0, 4) === "www.") {
-      //   hostName = hostName.slice(4);
-      // }
+      if (url.indexOf("://") > -1) {
+        hostName = url.split("/")[2];
+      } else {
+        hostName = url.split("/")[0];
+      }
+      if (hostName.slice(0, 4) === "www.") {
+        hostName = hostName.slice(4);
+      }
       return hostName;
     }
   

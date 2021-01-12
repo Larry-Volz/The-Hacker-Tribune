@@ -87,6 +87,26 @@ class StoryList {
     //DONE: return the newly created story so it can be used in the script.js file where it will be appended to the DOM
     return newStory;
   }
+
+   //DONE: create a method to delete that article from div and db
+  /**
+   * 
+   *Method to remove a story and update main list and user's list
+   */
+  async removeStory(user, storyId) {
+    await axios({
+      url: `${BASE_URL}/stories/${storyId}`,
+      method: "DELETE",
+      data: {
+        token: user.loginToken
+      },
+    });
+
+    // filter out the storis we are removing
+    this.stories = this.stories.filter(story => story.storyId !== storyId);
+    user.ownStories = user.ownStories.filter(s => s.storyId !== storyId
+    );
+  }
 }
 
 

@@ -188,6 +188,8 @@ $(async function() {
 
         //DONE: close form
         $("#submit-form").hide();
+
+        $allStoriesList.show();
       });
 
     
@@ -269,9 +271,25 @@ $(async function() {
     /**
      * event listener/method to remove an original article when trash can is clicked
      */
-    //TODO: create event listener for clicking on trash-can
-
-      //TODO: create a method to delete that article from div and db
+    //DONE: create event listener for clicking on trash-can
+    $ownStories.on("click", ".trash-can", async function(evt) {
+      // get the Story's ID
+      const $closestLi = $(evt.target).closest("li");
+      const storyId = $closestLi.attr("id");
+  
+      // remove the story from the API
+      await storyList.removeStory(currentUser, storyId);
+  
+      // re-write the story list
+      showMyStories();
+  
+      // hide everyhing
+      hideElements();
+  
+      // ...except the story list
+      $ownStories.show();
+    });
+      
 
   /**
    *  event listener to show favorites
