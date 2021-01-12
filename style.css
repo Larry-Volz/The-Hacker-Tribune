@@ -4,11 +4,17 @@ html {
 
 body {
   margin: 8px 7.5vw;
+  background-image: url("matrix_style_artwork.jpg");
 }
 
 h1 {
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   margin: 0;
+  display: inline;
+}
+
+.fa-newspaper {
+  font-size: 1.6rem;
 }
 
 h4 {
@@ -35,14 +41,16 @@ a:hover {
   display: none;
 }
 
-
-
 nav {
   display: flex;
   background-color: lightblue;
   align-items: center;
   padding: 5px 20px;
   border-radius: 3px 3px 0 0;
+}
+
+.navbar {
+  background-color: green !important;
 }
 
 .main-nav-links {
