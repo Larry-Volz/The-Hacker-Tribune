@@ -70,15 +70,19 @@ class StoryList {
     
     //DONE: APPEND id, username, created, updated to storyObj
     let today = new Date()
-    storyObj.username = user;
+    storyObj.username = user.username;
     storyObj.createdAt = today;
     storyObj.updatedAt = today;
 
     //DONE: instantiate a new story
     let newStory = new Story(storyObj);
 
-    //DONE: close form
-    $("#submit-form").hide()
+    console.log("newStory: ", newStory);
+
+    // add the story to the beginning of the list
+    this.stories.unshift(newStory);
+    // add the story to the beginning of the user's list
+    user.ownStories.unshift(newStory);
 
     //DONE: return the newly created story so it can be used in the script.js file where it will be appended to the DOM
     return newStory;

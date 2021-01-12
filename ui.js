@@ -161,29 +161,34 @@ $(async function() {
   /**
    * an event listener to generate and add a story to the db, page and storiesList
    */
-  //DONE: Event listener from menu to show the add story form
-  $("#nav-submit").on("click",()=> $("#submit-form").show())
+  //DONE: Event listener from menu to REVEAL the add story form
+  $("#nav-submit").on("click",()=>{
+    $("#submit-form")[0].reset();
+    $("#submit-form").slideToggle()
+  });
 
-
-  // DONE: added event listener for new article form submission
+  // DONE: added event listener for new article form SUBMISSION
   $("#submit-form").on("submit", async function(evt) {
-
     evt.preventDefault(); // no page refresh
 
     //DONE: Get story submission form info
+    
     const storyObj = {
             author : $("#author").val(),
               title : $("#title").val(),
               url : $("#url").val()
               };
     
-      let newStory = storyList.addStory(currentUser.username, storyObj)
+      let newStory = await storyList.addStory(currentUser, storyObj)
       .then(function(newStory) {
         
         //DONE: make text and add it to dom
         const storyHtml = generateStoryHTML(newStory);
         $("#all-articles-list").prepend(storyHtml);
-      })
+
+        //DONE: close form
+        $("#submit-form").hide();
+      });
 
     
   });
@@ -261,6 +266,13 @@ $(async function() {
       }
     });
 
+    /**
+     * event listener/method to remove an original article when trash can is clicked
+     */
+    //TODO: create event listener for clicking on trash-can
+
+      //TODO: create a method to delete that article from div and db
+
   /**
    *  event listener to show favorites
    */
@@ -270,19 +282,20 @@ $(async function() {
 
     if (currentUser){
 
-    //TODO: call showFavorites() method to reset screen & show favorites
+    //DONE: call showFavorites() method to reset screen & show favorites
       showFavorites();
       //turn on that div
       $favoritedArticles.show();
     }
    });
 
-  //TODO: ADD event listener to nav-bar FOR MY ARTICLES
-  $("body").on("click", "#nav-my-stories", function(){
+  //DONE: ADD event listener to nav-bar FOR MY ARTICLES
+  $("#nav-my-stories").on("click", function(){
+    console.log("clicked #nav-my-stories");
 
     if (currentUser){
       
-    //TODO: call showMyStories() method to show my articles
+    //DONE: call showMyStories() method to show my articles
       showMyStories();
       //turn on that div
       $ownStories.show();
@@ -399,10 +412,10 @@ $(async function() {
 
   function showMyStories(){
 
-    //TODO: clear out the on-screen divs/show default message
+    //DONE: clear out the on-screen divs/show default message
     hideAll()
 
-    //TODO: clear the var/div for mine
+    //DONE: clear the var/div for mine
     $("#my-articles").empty();
     
     //Are there any?
