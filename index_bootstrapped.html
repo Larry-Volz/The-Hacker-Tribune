@@ -18,28 +18,43 @@
 </head>
 
 <body>
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary mb-5"> 
-      <a class="nav-link  navbar-brand" href="#" id="nav-all"><i class="far fa-newspaper"></i><h1 >&nbsp;The HACKER TRIBUNE</h1></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse main-nav-links hidden" id="navbarNavAltMarkup">
-        <div class="navbar-nav ml-auto">
-          <a class="nav-item nav-link mx-3 active" href="#" id="nav-submit">Submit</a>
-          <a class="nav-item nav-link mx-3 " href="#" id="nav-my-favorites">Favorites</a>
-          <a class="nav-item nav-link mx-3" href="#" id="nav-my-stories">my&nbsp;stories</a>        
+    <!-- color overwritten by CSS to get shade I liked -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-5"> 
+        <a class="nav-link  navbar-brand" href="#" id="nav-all"><i class="far fa-newspaper"></i><h1 >&nbsp;The HACKER TRIBUNE</h1></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse main-nav-links" id="navbarNavAltMarkup">
+          <div class="navbar-nav ml-auto">
+            <ul class="navbar-nav mt-2">
+              <li>
+                <a class="nav-item nav-link mx-3 active" href="#" id="nav-submit">Submit</a>
+              </li>
+              <li>
+                <a class="nav-item nav-link mx-3 " href="#" id="nav-my-favorites">Favorites</a>
+              </li>
+              <li>
+                <a class="nav-item nav-link mx-3" href="#" id="nav-my-stories">my&nbsp;stories</a>
+              </li>  
+              <li>
+                <a class="nav-item nav-link mx-3" href="#" id="nav-login">login/create user</a> 
+              </li> 
+              <li>
+                <span class="nav-item nav-link mx-3 hidden" id="nav-welcome">
+                  <a href="#" id="nav-user-profile"></a>
+                </span> 
+              </li>
+              <li>
+                <a class="nav-item nav-link hidden" id="nav-logout" href="#">
+                  <small>(logout)</small>
+                </a>
+              </li>
+            </ul>
+              
+          </div>
         </div>
-      </div>
 
-      <a class="nav-item nav-link nav-right mx-3" href="#" id="nav-login">login/create user</a>  
-      
-      <span class="nav-item nav-link nav-right mx-3 hidden" id="nav-welcome">
-        <a href="#" id="nav-user-profile"></a>
-      </span>
-
-      <a class="nav-item nav-link nav-right hidden" id="nav-logout" href="#">
-        <small>(logout)</small>
-      </a>
     </nav>
 
 

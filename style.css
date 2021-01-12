@@ -42,9 +42,9 @@ a:hover {
 }
 
 nav {
-  display: flex;
+  /* display: flex; */
   background-color: lightblue;
-  align-items: center;
+  /* align-items: center; */
   padding: 5px 20px;
   border-radius: 3px 3px 0 0;
 }
