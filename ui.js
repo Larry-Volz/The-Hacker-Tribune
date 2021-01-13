@@ -92,6 +92,8 @@ $(async function() {
    */
 
   $("body").on("click", "#nav-all", async function() {  
+    $('.navbar-collapse').collapse('hide');
+    hideAll();
     hideElements();
     await generateStories();
     $allStoriesList.show();
@@ -164,6 +166,7 @@ $(async function() {
   //DONE: Event listener from menu to REVEAL the add story form
   $("#nav-submit").on("click",()=>{
     $("#submit-form")[0].reset();
+    $('.navbar-collapse').collapse('hide');
     $("#submit-form").slideToggle()
   });
 
@@ -300,6 +303,9 @@ $(async function() {
 
     if (currentUser){
 
+    //close hamburger menu
+    $('.navbar-collapse').collapse('hide');
+
     //DONE: call showFavorites() method to reset screen & show favorites
       showFavorites();
       //turn on that div
@@ -312,7 +318,9 @@ $(async function() {
     console.log("clicked #nav-my-stories");
 
     if (currentUser){
-      
+    //close hamburger menu
+    $('.navbar-collapse').collapse('hide');
+
     //DONE: call showMyStories() method to show my articles
       showMyStories();
       //turn on that div
@@ -340,12 +348,14 @@ $(async function() {
 
   function showNavForLoggedInUser() {
     $navLogin.hide();
-    $navLogOut.show();
+    $navLogOut.toggleClass("hidden");
+    // $navLogOut.show();
 
     //DONE: ADDED NAME TO RIGHT SIDE OF NAVBAR LIKE TEACHER'S
-    $navLogOut.text(currentUser.username+("(logout)")).css("fontSize", "small");
+    $navLogOut.text(currentUser.username+("(logout)"));//.css("fontSize", "small");
     //DONE: show main nav links like teacher's
-    $(".main-nav-links").show();
+    // $(".main-nav-links").show();
+
     //DONE: Show name,username at bottom of page
     $("#profile-name").append(currentUser.name);
     $("#profile-username").append(currentUser.username);

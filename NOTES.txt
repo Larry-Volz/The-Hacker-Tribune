@@ -1,9 +1,6 @@
 NOTES:
 
 TODO:
-- favorites being added - but ALL stars need to show up/stay filled in
-  --> change that with a check in generateHTML() in ui.js
-- and when removed/fills in... screwed up - check it out
-(currentUser.addFavorites()/removeFavorites()?)
-- $favoritedAricles not used?
+- when you navigate away from main and back the info at the bottom vanishes
+- at some point favorites end up showing up down there at the bottom for some reason
 - 
