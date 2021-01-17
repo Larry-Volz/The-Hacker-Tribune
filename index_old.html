@@ -6,76 +6,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>The HACKER TRIBUNE</title>
-
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500&display=swap" rel="stylesheet">    
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
     crossorigin="anonymous">
   <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 
 <body>
-    <!-- color overwritten by CSS to get shade I liked -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-5"> 
-        <a class="nav-link  navbar-brand" href="#" id="nav-all"><i class="far fa-newspaper"></i><h1 >&nbsp;The HACKER TRIBUNE</h1></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+  <nav>
+    <b><a class="nav-link navbar-brand" href="#" id="nav-all">The HACKER TRIBUNE</a></b>
 
-        <div class="collapse navbar-collapse main-nav-links" id="navbarNavAltMarkup">
-          <div class="navbar-nav ml-auto">
-            <ul class="navbar-nav mt-2">
-              <li>
-                <a class="nav-item nav-link mx-3 active" href="#" id="nav-submit">Submit</a>
-              </li>
-              <li>
-                <a class="nav-item nav-link mx-3 " href="#" id="nav-my-favorites">Favorites</a>
-              </li>
-              <li>
-                <a class="nav-item nav-link mx-3" href="#" id="nav-my-stories">my&nbsp;stories</a>
-              </li>  
-              <li>
-                <a class="nav-item nav-link mx-3" href="#" id="nav-login">login/create user</a> 
-              </li> 
-              <li>
-                <span class="nav-item nav-link mx-3 hidden" id="nav-welcome">
-                  <a href="#" id="nav-user-profile"></a>
-                </span> 
-              </li>
-              <li>
-                <a class="nav-item nav-link mx-3 hidden" id="nav-logout" href="#">
-                  <small>(logout)</small>
-                </a>
-              </li>
-            </ul>
-              
-          </div>
-        </div>
+     <!-- DONE: added menu items like example's -->
+    <div class="main-nav-links hidden">
+      |
+      <a class="nav-link" href="#" id="nav-submit">submit</a>
+      |
+      <a class="nav-link" href="#" id="nav-my-favorites">favorites</a>
+      |
+      <a class="nav-link" href="#" id="nav-my-stories">my&nbsp;stories</a>
+    </div>
 
-    </nav>
+    <a class="nav-link nav-right" href="#" id="nav-login">login/create user</a>
 
+    <span class="nav-link nav-right hidden" id="nav-welcome">
+      <a href="#" id="nav-user-profile"></a>
+    </span>
+
+    <!-- DONE: changed to  class nav-right-->
+    <a class="hidden nav-right" id="nav-logout" href="#">
+      <small>(logout)</small>
+    </a>
+
+  </nav>
 
   <!-- ----------------------------------------- NEW ARTICLE FORM -------------------------------------->
-  <section class="articles-container container form-group mt-5">
+  <section class="articles-container container">
     <form action="" class="hidden" id="submit-form">
       <div>
-        <!-- <label for="author">author</label> -->
-        <input type="text" class="form-control" id="author" placeholder="author name" aria-describedby="author" required>
+        <label for="author">author</label>
+        <input type="text" id="author" placeholder="author name" required>
       </div>
       <div>
-        <!-- <label for="title">title</label> -->
-        <input type="text" class="form-control" id="title" placeholder="article title" aria-describedby="title" required>
+        <label for="title">title</label>
+        <input type="text" id="title" placeholder="article title" required>
       </div>
       <div>
-        <!-- <label for="url">url</label> -->
-        <input type="url" class="form-control" id="url" placeholder="article url" aria-describedby="URL" required>
+        <label for="url">url</label>
+        <input type="url" id="url" placeholder="article url" required>
       </div>
-      <div>
-        <button class="btn btn-primary" type="submit" id="add-story-btn">submit</button>
-      </div>
+      <button type="submit" id="add-story-btn">submit</button>
       <hr>
     </form>
   <!-- ------------------------------------------------------------------ -------------------------------------->
@@ -166,12 +144,6 @@
 
 <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
   crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-    crossorigin="anonymous"></script>
 <script src="https://unpkg.com/axios/dist/axios.js"></script>
 <script src="api-classes.js"></script>
 <script src="ui.js"></script>

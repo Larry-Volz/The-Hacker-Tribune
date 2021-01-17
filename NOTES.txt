@@ -1,6 +1,8 @@
 NOTES:
 
-TODO:
+Bonus TODO's:
 - when you navigate away from main and back the info at the bottom vanishes
+- is there redundencies in hideAll() and hideElements()?
+
+DONE
 - at some point favorites end up showing up down there at the bottom for some reason
-- 
