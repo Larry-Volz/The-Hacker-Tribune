@@ -184,7 +184,9 @@ $(async function() {
     
       let newStory = await storyList.addStory(currentUser, storyObj)
       .then(function(newStory) {
+
         
+
         //DONE: make text and add it to dom
         const storyHtml = generateStoryHTML(newStory);
         $("#all-articles-list").prepend(storyHtml);
@@ -315,8 +317,6 @@ $(async function() {
 
   //DONE: ADD event listener to nav-bar FOR MY ARTICLES
   $("#nav-my-stories").on("click", function(){
-    console.log("clicked #nav-my-stories");
-
     if (currentUser){
     //close hamburger menu
     $('.navbar-collapse').collapse('hide');
@@ -453,8 +453,6 @@ $(async function() {
     
     //if yes...
     } else {
-      
-      
       //get each article and add them to the dom
       for (let ea of currentUser.ownStories) {
         

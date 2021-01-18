@@ -65,6 +65,7 @@ class StoryList {
     //DONE: make a POST request to /stories and add the new story to the list
     const result = await axios.post(`${BASE_URL}/stories`, apiObj);
     
+    
     //DONE: Get story id from /stories & add to storyObj
     storyObj.storyId = result.data.story.storyId;  //???
     
@@ -84,7 +85,9 @@ class StoryList {
     // add the story to the beginning of the user's list
     user.ownStories.unshift(newStory);
 
-    //DONE: return the newly created story so it can be used in the script.js file where it will be appended to the DOM
+    await user.updateCurrentUser()
+
+    //DONE: return the newly created story so it can be used in the ui.js file where it will be appended to the DOM
     return newStory;
   }
 
@@ -102,10 +105,9 @@ class StoryList {
       },
     });
 
-    // filter out the storis we are removing
+    // filter out the stories we are removing
     this.stories = this.stories.filter(story => story.storyId !== storyId);
-    user.ownStories = user.ownStories.filter(s => s.storyId !== storyId
-    );
+    user.ownStories = user.ownStories.filter(s => s.storyId !== storyId);
   }
 }
 
